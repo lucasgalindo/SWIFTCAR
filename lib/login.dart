@@ -56,12 +56,29 @@ String senha = '';
                 ),
                 ),
                 
-                SizedBox(height: 15),
+                SizedBox(height: 30),
           
                 ElevatedButton(onPressed: () {
                   
-                }, 
-                child: Text('Entrar'))
+                },
+
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color.fromRGBO(21,136,205, 1),
+                ),
+              
+                child: SizedBox(
+                  
+                  width: 300,
+                  height: 50,
+                  child: Center(
+                    child: Text(
+                      'Entrar',
+                      style: TextStyle(
+                        color: Colors.black,
+                      ),
+                      ),
+                  ),
+                ))
               
               ],),
             ),
