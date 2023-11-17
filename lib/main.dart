@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'cadastro.dart';
 import 'login.dart';
 
 void main() {
@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       routes: {
-        "HomePage":(context)=> const LoginPage(),
+        "HomePage":(context)=> const CadastroPage(),
       },
       initialRoute: "HomePage",
     );

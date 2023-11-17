@@ -56,7 +56,7 @@ String senha = '';
                 ),
                 ),
                 
-                SizedBox(height: 30),
+                SizedBox(height: 15),
           
                 ElevatedButton(onPressed: () {
                   
