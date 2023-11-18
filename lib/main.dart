@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'cadastro.dart';
 import 'login.dart';
+import 'ConfirmarSolic.dart';
 
 void main() {
   runApp(const MyApp());
@@ -34,7 +35,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       routes: {
-        "HomePage":(context)=> const CadastroPage(),
+        "HomePage":(context)=> const ConfirmarSolic(),
       },
       initialRoute: "HomePage",
     );

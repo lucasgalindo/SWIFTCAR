@@ -10,8 +10,8 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
 
 
-String email = '';
-String senha = '';
+TextEditingController emailController = TextEditingController();
+TextEditingController senhaController = TextEditingController();
 
 
   @override
@@ -33,9 +33,9 @@ String senha = '';
                 SizedBox(height: 120),
           
                 TextField(
-                  onChanged: (text){
-                    email = text;
-                  },
+
+                  controller: emailController,
+                  
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
                   labelText: 'E-mail',
@@ -46,9 +46,9 @@ String senha = '';
                 SizedBox(height: 10),
                 
                 TextField(
-                  onChanged: (text){
-                    senha = text;
-                  },
+                  
+                  controller: senhaController,
+                 
                   obscureText: true,
                   decoration: InputDecoration(
                   labelText: 'Senha',
