@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class ConfirmarSolic extends StatefulWidget {
-  const ConfirmarSolic({Key? key}) : super(key: key);
+class AguardarMecanico extends StatefulWidget {
+  const AguardarMecanico({super.key});
 
   @override
-  State<ConfirmarSolic> createState() => _ConfirmarSolicState();
+  State<AguardarMecanico> createState() => _AguardarMecanicoState();
 }
 
-class _ConfirmarSolicState extends State<ConfirmarSolic> {
+class _AguardarMecanicoState extends State<AguardarMecanico> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +33,7 @@ class _ConfirmarSolicState extends State<ConfirmarSolic> {
                   ),
                 ),
                 child: Text(
-                  'Socorro Mecânico',
+                  'Solicitação Realizada',
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.w800,
@@ -103,21 +103,24 @@ class _ConfirmarSolicState extends State<ConfirmarSolic> {
                 ),
               ),
               SizedBox(height: 76),
-              ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Color.fromRGBO(21, 136, 220, 1),
+              Container(
+                alignment: Alignment.center,
+                width: 300,
+                height: 50,
+                decoration: BoxDecoration(
+                  color: Color.fromRGBO(21, 136, 220, 1),
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(
+                    color: Color.fromRGBO(214, 214, 214, 100),
+                    width: 2,
+                  ),
                 ),
-                child: SizedBox(
-                  width: 300,
-                  height: 50,
-                  child: Center(
-                    child: Text(
-                      'CONFIRMAR SOLICITAÇÃO',
-                      style: TextStyle(
-                        color: Colors.black,
-                      ),
-                    ),
+                child: Text(
+                  'Aguarde o mecânico...',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
               ),
