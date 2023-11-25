@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:swiftcar/AguardarMecanico.dart';
 
 class ConfirmarSolic extends StatefulWidget {
   const ConfirmarSolic({Key? key}) : super(key: key);
@@ -104,7 +105,14 @@ class _ConfirmarSolicState extends State<ConfirmarSolic> {
               ),
               SizedBox(height: 76),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+
+                  Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => AguardarMecanico()),
+                              );
+
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color.fromRGBO(21, 136, 220, 1),
                 ),

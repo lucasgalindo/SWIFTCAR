@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:swiftcar/ConfirmarSolic.dart';
 
 class SolicitarMecanico extends StatefulWidget {
   const SolicitarMecanico({super.key});
@@ -71,6 +72,10 @@ class _SolicitarMecanicoState extends State<SolicitarMecanico> {
                 ElevatedButton(
                   onPressed: () {
                     
+                    Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => ConfirmarSolic()),
+                              );
                     
                   },
                   style: ElevatedButton.styleFrom(

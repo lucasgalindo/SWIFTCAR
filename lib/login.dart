@@ -1,6 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:swiftcar/SolicitarMecanico.dart';
 import 'cadastro.dart'; 
+
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key});
@@ -47,7 +49,14 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   SizedBox(height: 30),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+
+                      Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => SolicitarMecanico()),
+                              );
+
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Color.fromRGBO(21, 136, 205, 1),
                     ),

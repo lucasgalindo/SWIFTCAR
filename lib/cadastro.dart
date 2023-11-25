@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:swiftcar/SolicitarMecanico.dart';
+import 'package:swiftcar/login.dart';
 
 class CadastroPage extends StatefulWidget {
   const CadastroPage({Key? key}) : super(key: key);
@@ -95,12 +97,10 @@ class _CadastroPageState extends State<CadastroPage> {
                 ElevatedButton(
                   onPressed: () {
                     
-                    if (tipoUsuarioSelecionado != null) {
-                      print('Email: $email');
-                      print('Telefone: $phone');
-                      print('Tipo de usuário: $tipoUsuarioSelecionado');
-                      print('Senha: $senha');
-                    }
+                    Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => LoginPage()),
+                              );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color.fromRGBO(21, 136, 205, 1),
