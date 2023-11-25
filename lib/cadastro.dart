@@ -15,6 +15,9 @@ class _CadastroPageState extends State<CadastroPage> {
   String phone = '';
   String name = '';
   TipoUsuario? tipoUsuarioSelecionado;
+  TextEditingController emailController = TextEditingController();
+  TextEditingController senhaController = TextEditingController();
+  TextEditingController nomeController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +39,7 @@ class _CadastroPageState extends State<CadastroPage> {
                       name = text;
                     });
                   },
-              
+                controller: nomeController,
                   decoration: InputDecoration(
                     labelText: 'Digite aqui o seu nome completo:',
                     border: OutlineInputBorder(),
@@ -49,6 +52,7 @@ class _CadastroPageState extends State<CadastroPage> {
                       email = text;
                     });
                   },
+                  controller: emailController,
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
                     labelText: 'Digite aqui o seu e-mail:',
@@ -56,25 +60,14 @@ class _CadastroPageState extends State<CadastroPage> {
                   ),
                 ),
                 SizedBox(height: 10),
-                TextField(
-                  onChanged: (text) {
-                    setState(() {
-                      phone = text;
-                    });
-                  },
-                  keyboardType: TextInputType.phone,
-                  decoration: InputDecoration(
-                    labelText: 'Digite aqui o seu número de telefone:',
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-                SizedBox(height: 10),
+                
                 TextField(
                   onChanged: (text) {
                     setState(() {
                       senha = text;
                     });
                   },
+                  controller: senhaController,
                   decoration: InputDecoration(
                     labelText: 'Digite aqui a sua senha:',
                     border: OutlineInputBorder(),

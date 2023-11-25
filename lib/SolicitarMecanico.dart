@@ -60,7 +60,7 @@ class _SolicitarMecanicoState extends State<SolicitarMecanico> {
                       model = text;
                     });
                   },
-                  keyboardType: TextInputType.phone,
+                 
                   decoration: InputDecoration(
                     labelText: 'Digite o modelo e ano do seu veículo (MODELO/ANO): ',
                     border: OutlineInputBorder(),

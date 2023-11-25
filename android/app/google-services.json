@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "350728874216",
+    "project_id": "swiftcar-62500",
+    "storage_bucket": "swiftcar-62500.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:350728874216:android:d9aef65e4217086fd6415d",
+        "android_client_info": {
+          "package_name": "com.example.swiftcar"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_cr1GiZ0kmPCbf44H5b1HrAHUAmg9XII"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
