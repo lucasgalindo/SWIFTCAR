@@ -90,31 +90,7 @@ class _CadastroPageState extends State<CadastroPage> {
                     border: OutlineInputBorder(),
                   ),
                 ),
-                SizedBox(height: 30),
-                Text(
-                  'O que você pretende ser no nosso Aplicativo:',
-                  style: TextStyle(fontSize: 16),
-                ),
-                RadioListTile<TipoUsuario>(
-                  title: Text('Usuário (Cliente)'),
-                  value: TipoUsuario.cliente,
-                  groupValue: tipoUsuarioSelecionado,
-                  onChanged: (TipoUsuario? value) {
-                    setState(() {
-                      tipoUsuarioSelecionado = value;
-                    });
-                  },
-                ),
-                RadioListTile<TipoUsuario>(
-                  title: Text('Prestador de serviço (Mecânico)'),
-                  value: TipoUsuario.mecanico,
-                  groupValue: tipoUsuarioSelecionado,
-                  onChanged: (TipoUsuario? value) {
-                    setState(() {
-                      tipoUsuarioSelecionado = value;
-                    });
-                  },
-                ),
+                
                 SizedBox(height: 30),
                 ElevatedButton(
                   onPressed: () {
@@ -142,6 +118,9 @@ class _CadastroPageState extends State<CadastroPage> {
                     ),
                   ),
                 )
+
+                
+
               ],
             ),
           ),

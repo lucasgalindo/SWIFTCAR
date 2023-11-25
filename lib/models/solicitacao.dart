@@ -4,38 +4,33 @@ class Solicitacao {
   String id;
   TipoServico tipoServico; 
   String localizacao;
-  String descricao; 
-  String dataHora;
+  String placa; 
+  String model;
 
   Solicitacao({
     required this.id,
     required this.tipoServico,
     required this.localizacao,
-    required this.descricao,
-    required this.dataHora,
+    required this.placa,
+    required this.model,
   });
 
   Solicitacao.fromMap(Map<String, dynamic> map)
       : id = map["id"],
         tipoServico = TipoServico.fromMap(map["tipoServico"]), 
         localizacao = map["localizacao"],
-        descricao = map["descricao"],
-        dataHora = map["dataHora"];
+        placa = map["descricao"],
+        model = map["dataHora"];
 
   Map<String, dynamic> toMap() {
     return {
       "id": id,
       "tipoServico": tipoServico.toMap(), 
       "localizacao": localizacao,
-      "descricao": descricao,
-      "dataHora": dataHora,
+      "descricao": placa,
+      "dataHora": model,
     };
   }
 
   
-  void acessarInformacoesTipoServico() {
-    print('ID do Tipo de Serviço: ${tipoServico.id}');
-    print('Tipo de Serviço: ${tipoServico.tipo}');
-    print('Preço do Serviço: ${tipoServico.preco}');
-  }
 }

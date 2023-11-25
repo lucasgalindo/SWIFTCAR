@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:swiftcar/SolicitarMecanico.dart';
-import 'cadastro.dart';
-import 'login.dart';
-import 'ConfirmarSolic.dart';
-import 'SolicitarMecanico.dart';
 import 'AguardarMecanico.dart';
+import 'SolicitarMecanico.dart';
+import 'login.dart';
 
 void main() {
   runApp(const MyApp());
@@ -38,7 +35,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       routes: {
-        "HomePage":(context)=> const AguardarMecanico(),
+        "HomePage":(context)=> const LoginPage(),
       },
       initialRoute: "HomePage",
     );
