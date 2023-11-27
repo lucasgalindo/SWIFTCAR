@@ -20,11 +20,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: LoginPage(), // Definindo a página inicial como LoginPage
+      home: LoginPage(), 
     );
   }
 }
 
 
 
-// Adicione suas outras páginas aqui, como AguardarMecanico e SolicitarMecanico
