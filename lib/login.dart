@@ -19,11 +19,9 @@ class _LoginPageState extends State<LoginPage> {
 
   void fazerLogin() async {
     try {
-     
       if (emailController.text.isEmpty || senhaController.text.isEmpty) {
         
-        // ignore: avoid_print
-        print('Por favor, preencha usuário e senha');
+        mostrarSnackBar('Por favor, preencha usuário e senha');
         return;
       }
 
@@ -32,24 +30,30 @@ class _LoginPageState extends State<LoginPage> {
         senha: senhaController.text,
       );
 
-      
       User? user = userCredential.user;
 
       if (user != null) {
         
-        Navigator.of(context).pushNamedAndRemoveUntil('/home', (_) => false);
-        // ignore: avoid_print
-        print('Login efetuado com sucesso! User ID: ${user.uid}');
-      } else {
+        Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => SolicitarMecanico()),
+      );
         
-        // ignore: avoid_print
-        print('E-mail e/ou senha incorretos. Favor, revise os dados e tente novamente!');
-      }
+        mostrarSnackBar('Login efetuado com sucesso!');
+      } 
     } catch (error) {
-     
-      // ignore: avoid_print
-      print('Erro ao fazer login: $error');
+      
+      mostrarSnackBar('E-mail e/ou senha incorretos. Favor, revise os dados e tente novamente!');
     }
+  }
+
+  void mostrarSnackBar(String mensagem) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(mensagem),
+        duration: Duration(seconds: 1),
+      ),
+    );
   }
 
   @override
@@ -85,41 +89,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 SizedBox(height: 30),
                 ElevatedButton(
-                  onPressed: () async {
-    
-    if (emailController.text.isEmpty || senhaController.text.isEmpty) {
-      
-      print('Por favor, preencha usuário e senha');
-      return;
-    }
-
-    try {
-      
-      UserCredential userCredential = await authService.fazerLogin(
-        email: emailController.text,
-        senha: senhaController.text,
-      );
-
-      
-      User? user = userCredential.user;
-
-      if (user != null) {
-        
-        Navigator.pushReplacement(
-  context,
-  MaterialPageRoute(builder: (context) => SolicitarMecanico()),
-);
-
-        print('Login efetuado com sucesso! User ID: ${user.uid}');
-      } else {
-        
-        print('E-mail e/ou senha incorretos. Favor, revise os dados e tente novamente!');
-      }
-    } catch (error) {
-      
-      print('Erro ao fazer login: $error');
-    }
-  },
+                  onPressed: fazerLogin,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color.fromRGBO(21, 136, 205, 1),
                   ),
@@ -156,7 +126,6 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-
                             Navigator.push(
                               context,
                               MaterialPageRoute(builder: (context) => CadastroPage()),

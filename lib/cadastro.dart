@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:swiftcar/SolicitarMecanico.dart';
 import 'package:swiftcar/login.dart';
 import 'autenticacaoservico.dart';
 
@@ -18,49 +17,51 @@ class _CadastroPageState extends State<CadastroPage> {
 
   void cadastrarUsuario() async {
     try {
-      
       if (nomeController.text.isEmpty ||
           emailController.text.isEmpty ||
           senhaController.text.isEmpty) {
-        print('Por favor, preencha todos os campos.');
+        mostrarSnackBar('Por favor, preencha todos os campos.');
         return;
       }
 
-      
       if (!RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$')
           .hasMatch(emailController.text)) {
-        print('Por favor, digite um e-mail válido.');
+        mostrarSnackBar('Por favor, digite um e-mail válido.');
         return;
       }
 
-      
       bool emailCadastrado =
           await authService.verificarEmailCadastrado(emailController.text);
 
       if (emailCadastrado) {
-        print('Este e-mail já está cadastrado. Tente fazer login.');
+        mostrarSnackBar('Este e-mail já está cadastrado. Tente fazer login.');
         return;
       }
 
-      
       await authService.cadastrarUsuario(
         nome: nomeController.text,
         email: emailController.text,
         senha: senhaController.text,
       );
 
-      
-      print("Cadastro realizado com sucesso!");
+      mostrarSnackBar("Cadastro realizado com sucesso!");
 
-     
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => LoginPage()),
       );
     } catch (error) {
-      
-      print('Erro ao cadastrar o usuário: $error');
+      mostrarSnackBar('Erro ao cadastrar o usuário: $error');
     }
+  }
+
+  void mostrarSnackBar(String mensagem) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(mensagem),
+        duration: Duration(seconds: 1),
+      ),
+    );
   }
 
   @override
