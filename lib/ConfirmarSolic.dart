@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:swiftcar/AguardarMecanico.dart';
 
+import 'SolicitarMecanico.dart';
+import 'login.dart';
+
 class ConfirmarSolic extends StatefulWidget {
   const ConfirmarSolic({Key? key}) : super(key: key);
 
@@ -12,9 +15,50 @@ class _ConfirmarSolicState extends State<ConfirmarSolic> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
+
+      appBar: AppBar(),
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            DrawerHeader(
+              child: Center(
+                child: Image.asset(
+                  'assets/swiftcar.png',
+                  width: 100,
+                  height: 100,
+                ),
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.home),
+              title: const Text('Página Inicial'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SolicitarMecanico()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.logout),
+              title: const Text('Logout'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginPage()),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+
+      body: SingleChildScrollView(
         child: Container(
-          margin: EdgeInsets.all(15),
+          child: SizedBox(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -41,7 +85,7 @@ class _ConfirmarSolicState extends State<ConfirmarSolic> {
                   ),
                 ),
               ),
-              SizedBox(height: 76),
+              SizedBox(height: 50),
               Container(
                 padding: EdgeInsets.only(top: 20),
                 alignment: Alignment.topCenter,
@@ -103,7 +147,7 @@ class _ConfirmarSolicState extends State<ConfirmarSolic> {
                       ],
                 ),
               ),
-              SizedBox(height: 76),
+              SizedBox(height: 50),
               ElevatedButton(
                 onPressed: () {
 
@@ -132,6 +176,7 @@ class _ConfirmarSolicState extends State<ConfirmarSolic> {
             ],
           ),
         ),
+      ),
       ),
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:swiftcar/SolicitarMecanico.dart';
 import 'package:swiftcar/login.dart';
+import 'autenticacaoservico.dart';
 
 class CadastroPage extends StatefulWidget {
   const CadastroPage({Key? key}) : super(key: key);
@@ -10,14 +11,57 @@ class CadastroPage extends StatefulWidget {
 }
 
 class _CadastroPageState extends State<CadastroPage> {
-  String email = '';
-  String senha = '';
-  String phone = '';
-  String name = '';
-  TipoUsuario? tipoUsuarioSelecionado;
+  final AuthenticateService authService = AuthenticateService();
   TextEditingController emailController = TextEditingController();
   TextEditingController senhaController = TextEditingController();
   TextEditingController nomeController = TextEditingController();
+
+  void cadastrarUsuario() async {
+    try {
+      
+      if (nomeController.text.isEmpty ||
+          emailController.text.isEmpty ||
+          senhaController.text.isEmpty) {
+        print('Por favor, preencha todos os campos.');
+        return;
+      }
+
+      
+      if (!RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$')
+          .hasMatch(emailController.text)) {
+        print('Por favor, digite um e-mail válido.');
+        return;
+      }
+
+      
+      bool emailCadastrado =
+          await authService.verificarEmailCadastrado(emailController.text);
+
+      if (emailCadastrado) {
+        print('Este e-mail já está cadastrado. Tente fazer login.');
+        return;
+      }
+
+      
+      await authService.cadastrarUsuario(
+        nome: nomeController.text,
+        email: emailController.text,
+        senha: senhaController.text,
+      );
+
+      
+      print("Cadastro realizado com sucesso!");
+
+     
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => LoginPage()),
+      );
+    } catch (error) {
+      
+      print('Erro ao cadastrar o usuário: $error');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,11 +79,9 @@ class _CadastroPageState extends State<CadastroPage> {
                 SizedBox(height: 50),
                 TextField(
                   onChanged: (text) {
-                    setState(() {
-                      name = text;
-                    });
+                    setState(() {});
                   },
-                controller: nomeController,
+                  controller: nomeController,
                   decoration: InputDecoration(
                     labelText: 'Digite aqui o seu nome completo:',
                     border: OutlineInputBorder(),
@@ -48,9 +90,7 @@ class _CadastroPageState extends State<CadastroPage> {
                 SizedBox(height: 10),
                 TextField(
                   onChanged: (text) {
-                    setState(() {
-                      email = text;
-                    });
+                    setState(() {});
                   },
                   controller: emailController,
                   keyboardType: TextInputType.emailAddress,
@@ -60,12 +100,9 @@ class _CadastroPageState extends State<CadastroPage> {
                   ),
                 ),
                 SizedBox(height: 10),
-                
                 TextField(
                   onChanged: (text) {
-                    setState(() {
-                      senha = text;
-                    });
+                    setState(() {});
                   },
                   controller: senhaController,
                   decoration: InputDecoration(
@@ -73,28 +110,9 @@ class _CadastroPageState extends State<CadastroPage> {
                     border: OutlineInputBorder(),
                   ),
                 ),
-                SizedBox(height: 10),
-                TextField(
-                  onChanged: (text) {
-                    setState(() {
-                      senha = text;
-                    });
-                  },
-                  decoration: InputDecoration(
-                    labelText: 'Confirme a sua senha:',
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-                
-                SizedBox(height: 30),
+                SizedBox(height: 50),
                 ElevatedButton(
-                  onPressed: () {
-                    
-                    Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => LoginPage()),
-                              );
-                  },
+                  onPressed: cadastrarUsuario,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color.fromRGBO(21, 136, 205, 1),
                   ),
@@ -110,10 +128,7 @@ class _CadastroPageState extends State<CadastroPage> {
                       ),
                     ),
                   ),
-                )
-
-                
-
+                ),
               ],
             ),
           ),
@@ -122,5 +137,3 @@ class _CadastroPageState extends State<CadastroPage> {
     );
   }
 }
-
-enum TipoUsuario { cliente, mecanico }

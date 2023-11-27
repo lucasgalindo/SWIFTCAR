@@ -1,34 +1,30 @@
-import 'TipoServico.dart';
+
 
 class Solicitacao {
   String id;
-  TipoServico tipoServico; 
   String localizacao;
   String placa; 
-  String model;
+  String modelo;
 
   Solicitacao({
     required this.id,
-    required this.tipoServico,
     required this.localizacao,
     required this.placa,
-    required this.model,
+    required this.modelo,
   });
 
   Solicitacao.fromMap(Map<String, dynamic> map)
-      : id = map["id"],
-        tipoServico = TipoServico.fromMap(map["tipoServico"]), 
+      : id = map["id"], 
         localizacao = map["localizacao"],
         placa = map["descricao"],
-        model = map["dataHora"];
+        modelo = map["dataHora"];
 
   Map<String, dynamic> toMap() {
     return {
       "id": id,
-      "tipoServico": tipoServico.toMap(), 
       "localizacao": localizacao,
       "descricao": placa,
-      "dataHora": model,
+      "dataHora": modelo,
     };
   }
 

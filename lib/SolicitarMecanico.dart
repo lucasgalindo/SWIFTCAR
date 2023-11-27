@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:swiftcar/ConfirmarSolic.dart';
+import 'login.dart';
 
 class SolicitarMecanico extends StatefulWidget {
   const SolicitarMecanico({super.key});
@@ -17,6 +18,44 @@ class _SolicitarMecanicoState extends State<SolicitarMecanico> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
+      appBar: AppBar(),
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            DrawerHeader(
+              child: Center(
+                child: Image.asset(
+                  'assets/swiftcar.png',
+                  width: 100,
+                  height: 100,
+                ),
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.home),
+              title: const Text('Página Inicial'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SolicitarMecanico()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.logout),
+              title: const Text('Logout'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginPage()),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+
       body: SingleChildScrollView(
         child: SizedBox(
           width: MediaQuery.of(context).size.width,
