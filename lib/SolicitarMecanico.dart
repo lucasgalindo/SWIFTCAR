@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:swiftcar/ConfirmarSolic.dart';
+import 'package:swiftcar/intermedio.dart';
 import 'login.dart';
+
 
 class SolicitarMecanico extends StatefulWidget {
   const SolicitarMecanico({super.key});
@@ -22,6 +23,7 @@ class _SolicitarMecanicoState extends State<SolicitarMecanico> {
       appBar: AppBar(),
       drawer: Drawer(
         child: ListView(
+          
           children: [
             DrawerHeader(
               child: Center(
@@ -42,6 +44,7 @@ class _SolicitarMecanicoState extends State<SolicitarMecanico> {
                 );
               },
             ),
+            SizedBox(height: MediaQuery.sizeOf(context).height*0.58),
             ListTile(
               leading: const Icon(Icons.logout),
               title: const Text('Logout'),
@@ -113,7 +116,7 @@ class _SolicitarMecanicoState extends State<SolicitarMecanico> {
                     
                     Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => ConfirmarSolic()),
+                                MaterialPageRoute(builder: (context) => Intermedio()),
                               );
                     
                   },
