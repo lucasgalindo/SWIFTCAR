@@ -1,29 +1,87 @@
 import 'package:flutter/material.dart';
-import 'package:swiftcar/intermedio.dart';
+import 'package:swiftcar/models/solicitacao.dart';
+import 'intermedio.dart';
 import 'login.dart';
 
-
 class SolicitarMecanico extends StatefulWidget {
-  const SolicitarMecanico({super.key});
+  const SolicitarMecanico({Key? key}) : super(key: key);
 
   @override
   State<SolicitarMecanico> createState() => _SolicitarMecanicoState();
 }
 
 class _SolicitarMecanicoState extends State<SolicitarMecanico> {
-
   String localization = '';
   String placa = '';
   String model = '';
+  LocalizacaoUser localizacaoUser = LocalizacaoUser();
+
+  @override
+  void initState() {
+    super.initState();
+    obterLocalizacao();
+  }
+
+  void obterLocalizacao() async {
+    await localizacaoUser.getPosicao();
+    setState(() {
+      localization = localizacaoUser.endereco; // Agora utiliza o endereço
+    });
+  }
+
+  void _mostrarPopUpConfirmacao() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Confirmação'),
+          content: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text('Localização: $localization'),
+              SizedBox(height: 10),
+              Text('Placa do Veículo: $placa'),
+              SizedBox(height: 10),
+              Text('Modelo/Ano: $model'),
+              SizedBox(height: 10),
+              Text(
+                'Observação: Ao confirmar a chamada de um mecânico, solicitado por meio do SwiftCar, garante a resolução de problemas que sejam passíveis de correção nas condições oferecidas por esse tipo de atendimento. Essa modalidade de serviço não contempla situações que exigem equipamentos especializados ou maquinários disponíveis apenas em oficinas.',
+                style: TextStyle(
+                  fontStyle: FontStyle.italic,
+                  color: Colors.grey,
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Cancelar'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Intermedio()),
+                );
+              },
+              child: Text('Confirmar'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       appBar: AppBar(),
       drawer: Drawer(
         child: ListView(
-          
           children: [
             DrawerHeader(
               child: Center(
@@ -44,7 +102,7 @@ class _SolicitarMecanicoState extends State<SolicitarMecanico> {
                 );
               },
             ),
-            SizedBox(height: MediaQuery.sizeOf(context).height*0.58),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.58),
             ListTile(
               leading: const Icon(Icons.logout),
               title: const Text('Logout'),
@@ -58,7 +116,6 @@ class _SolicitarMecanicoState extends State<SolicitarMecanico> {
           ],
         ),
       ),
-
       body: SingleChildScrollView(
         child: SizedBox(
           width: MediaQuery.of(context).size.width,
@@ -76,7 +133,7 @@ class _SolicitarMecanicoState extends State<SolicitarMecanico> {
                       localization = text;
                     });
                   },
-              
+                  controller: TextEditingController(text: localization),
                   decoration: InputDecoration(
                     labelText: 'Digite a sua localização:',
                     border: OutlineInputBorder(),
@@ -102,24 +159,14 @@ class _SolicitarMecanicoState extends State<SolicitarMecanico> {
                       model = text;
                     });
                   },
-                 
                   decoration: InputDecoration(
                     labelText: 'Digite o modelo e ano do seu veículo (MODELO/ANO): ',
                     border: OutlineInputBorder(),
                   ),
                 ),
                 SizedBox(height: 76),
-                
-  
                 ElevatedButton(
-                  onPressed: () {
-                    
-                    Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => Intermedio()),
-                              );
-                    
-                  },
+                  onPressed: _mostrarPopUpConfirmacao,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color.fromRGBO(21, 136, 205, 1),
                   ),

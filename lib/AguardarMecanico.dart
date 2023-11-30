@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-
-
+import 'package:shimmer/shimmer.dart';
 
 class AguardarMecanico extends StatefulWidget {
-  const AguardarMecanico({super.key});
+  const AguardarMecanico({Key? key}) : super(key: key);
 
   @override
   State<AguardarMecanico> createState() => _AguardarMecanicoState();
@@ -19,89 +18,46 @@ class _AguardarMecanicoState extends State<AguardarMecanico> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-
               Image.asset('assets/swiftcar.png'),
               SizedBox(height: 76),
               Container(
                 alignment: Alignment.center,
                 width: 300,
-                height: 50,
+                height: 220,
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(40),
                   border: Border.all(
-                    color: Color.fromRGBO(214, 214, 214, 100),
-                    width: 2,
-                  ),
-                ),
-                child: Text(
-                  'Solicitação Realizada',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-              ),
-              SizedBox(height: 76),
-              Container(
-                padding: EdgeInsets.only(top: 20),
-                alignment: Alignment.topCenter,
-                width: 300,
-                height: 268,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(
-                    color: Color.fromRGBO(214, 214, 214, 100),
+                    color: Colors.black,
                     width: 2,
                   ),
                 ),
                 child: Column(
-                      children: [
-                        Container(
-                alignment: Alignment.center,
-                width: 234,
-                height: 50,
-                decoration: BoxDecoration(
-                 color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(
-                    color: Color.fromRGBO(214, 214, 214, 100),
-                    width: 2,
-                  ),
-                ),
-                child: Text(
-                  'MINHA SOLICITAÇÃO',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-                Padding(padding: EdgeInsets.only(top: 20)),
-                    Text(
-                      "VALOR: R\$60,00",
-                      style: TextStyle(
-                        
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700,
-                        height: 1,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(10.0),
+                      child: Text(
+                        'Solicitação Realizada',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w800,
+                        ),
                       ),
                     ),
-                    
-
-                    Text(
-                      "LOCALIZAÇÃO: Rua Bom Jesus, 48.",
-                      style: TextStyle(
-                        
-                        fontSize: 14,
-                        fontWeight: FontWeight.normal,
+                    Padding(
+                      padding: EdgeInsets.all(10.0),
+                      child: Text(
+                        'Você deve efetuar o pagamento no valor de R\$60,00 ao mecânico, via PIX ou em espécie.',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
-
-                    
-
-                      ],
+                  ],
                 ),
               ),
               SizedBox(height: 76),
@@ -117,12 +73,18 @@ class _AguardarMecanicoState extends State<AguardarMecanico> {
                     width: 2,
                   ),
                 ),
-                child: Text(
-                  'Aguarde o mecânico...',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
+                child: Shimmer.fromColors(
+                  baseColor: Color.fromARGB(255, 0, 0, 0),
+                  highlightColor: Color.fromARGB(255, 255, 255, 255),
+                  child: Container(
+                    child: Text(
+                      'Aguarde, o mecânico está vindo até você',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
                   ),
                 ),
               ),

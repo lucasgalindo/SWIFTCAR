@@ -11,46 +11,47 @@ class CadastroPage extends StatefulWidget {
 
 class _CadastroPageState extends State<CadastroPage> {
   final AuthenticateService authService = AuthenticateService();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController senhaController = TextEditingController();
-  TextEditingController nomeController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController senhaController = TextEditingController();
+  final TextEditingController nomeController = TextEditingController();
+
+  final _formKey = GlobalKey<FormState>();
 
   void cadastrarUsuario() async {
     try {
-      if (nomeController.text.isEmpty ||
-          emailController.text.isEmpty ||
-          senhaController.text.isEmpty) {
-        mostrarSnackBar('Por favor, preencha todos os campos.');
-        return;
+      if (_formKey.currentState?.validate() ?? false) {
+        print('Validação do formulário passou.');
+
+        // Verificando se o e-mail já está cadastrado
+        bool emailCadastrado =
+            await authService.verificarEmailCadastrado(emailController.text);
+
+        print('E-mail cadastrado: $emailCadastrado');
+
+        // Se o e-mail já estiver cadastrado, exibir mensagem e retornar
+        if (emailCadastrado) {
+          mostrarSnackBar('Este e-mail já está cadastrado. Tente fazer login.');
+          return;
+        }
+
+        // Se o e-mail não estiver cadastrado, prosseguir com o cadastro
+        await authService.cadastrarUsuario(
+          nome: nomeController.text,
+          email: emailController.text,
+          senha: senhaController.text,
+        );
+
+        print('Cadastro realizado com sucesso!');
+
+        mostrarSnackBar("Cadastro realizado com sucesso!");
+
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => LoginPage()),
+        );
       }
-
-      if (!RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$')
-          .hasMatch(emailController.text)) {
-        mostrarSnackBar('Por favor, digite um e-mail válido.');
-        return;
-      }
-
-      bool emailCadastrado =
-          await authService.verificarEmailCadastrado(emailController.text);
-
-      if (emailCadastrado) {
-        mostrarSnackBar('Este e-mail já está cadastrado. Tente fazer login.');
-        return;
-      }
-
-      await authService.cadastrarUsuario(
-        nome: nomeController.text,
-        email: emailController.text,
-        senha: senhaController.text,
-      );
-
-      mostrarSnackBar("Cadastro realizado com sucesso!");
-
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => LoginPage()),
-      );
     } catch (error) {
+      print('Erro ao cadastrar o usuário: $error');
       mostrarSnackBar('Erro ao cadastrar o usuário: $error');
     }
   }
@@ -68,69 +69,87 @@ class _CadastroPageState extends State<CadastroPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        child: SizedBox(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          child: Padding(
-            padding: const EdgeInsets.all(34.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset('assets/swiftcar.png'),
-                SizedBox(height: 50),
-                TextField(
-                  onChanged: (text) {
-                    setState(() {});
-                  },
-                  controller: nomeController,
-                  decoration: InputDecoration(
-                    labelText: 'Digite aqui o seu nome completo:',
-                    border: OutlineInputBorder(),
+        child: Form(
+          key: _formKey,
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            child: Padding(
+              padding: const EdgeInsets.all(34.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset('assets/swiftcar.png'),
+                  SizedBox(height: 50),
+                  TextFormField(
+                    controller: nomeController,
+                    decoration: InputDecoration(
+                      labelText: 'Digite aqui o seu nome completo:',
+                      border: OutlineInputBorder(),
+                    ),
+                    validator: (value) {
+                      if (value?.isEmpty ?? true) {
+                        return 'Por favor, preencha este campo.';
+                      }
+                      return null;
+                    },
                   ),
-                ),
-                SizedBox(height: 10),
-                TextField(
-                  onChanged: (text) {
-                    setState(() {});
-                  },
-                  controller: emailController,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                    labelText: 'Digite aqui o seu e-mail:',
-                    border: OutlineInputBorder(),
+                  SizedBox(height: 10),
+                  TextFormField(
+                    controller: emailController,
+                    keyboardType: TextInputType.emailAddress,
+                    decoration: InputDecoration(
+                      labelText: 'Digite aqui o seu e-mail:',
+                      border: OutlineInputBorder(),
+                    ),
+                    validator: (value) {
+                      if (value?.isEmpty ?? true) {
+                        return 'Por favor, preencha este campo.';
+                      }
+                      if (!RegExp(
+                              r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$')
+                          .hasMatch(value!)) {
+                        return 'Por favor, digite um e-mail válido.';
+                      }
+                      return null;
+                    },
                   ),
-                ),
-                SizedBox(height: 10),
-                TextField(
-                  onChanged: (text) {
-                    setState(() {});
-                  },
-                  controller: senhaController,
-                  decoration: InputDecoration(
-                    labelText: 'Digite aqui a sua senha:',
-                    border: OutlineInputBorder(),
+                  SizedBox(height: 10),
+                  TextFormField(
+                    controller: senhaController,
+                    decoration: InputDecoration(
+                      labelText: 'Digite aqui a sua senha:',
+                      border: OutlineInputBorder(),
+                    ),
+                    obscureText: true,
+                    validator: (value) {
+                      if (value!.length < 6) {
+                        return 'A senha deve ter pelo menos 6 caracteres.';
+                      }
+                      return null;
+                    },
                   ),
-                ),
-                SizedBox(height: 50),
-                ElevatedButton(
-                  onPressed: cadastrarUsuario,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color.fromRGBO(21, 136, 205, 1),
-                  ),
-                  child: SizedBox(
-                    width: 300,
-                    height: 50,
-                    child: Center(
-                      child: Text(
-                        'Cadastrar',
-                        style: TextStyle(
-                          color: Colors.black,
+                  SizedBox(height: 50),
+                  ElevatedButton(
+                    onPressed: cadastrarUsuario,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color.fromRGBO(21, 136, 205, 1),
+                    ),
+                    child: SizedBox(
+                      width: 300,
+                      height: 50,
+                      child: Center(
+                        child: Text(
+                          'Cadastrar',
+                          style: TextStyle(
+                            color: Colors.black,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

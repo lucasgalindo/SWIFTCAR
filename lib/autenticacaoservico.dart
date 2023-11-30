@@ -12,10 +12,8 @@ class AuthenticateService {
       UserCredential userCredential = await firebaseAuth
           .createUserWithEmailAndPassword(email: email, password: senha);
 
-
       return userCredential;
     } catch (error) {
-      // ignore: avoid_print
       print('Erro ao cadastrar o usuário: $error');
       rethrow;
     }
@@ -33,8 +31,6 @@ class AuthenticateService {
 
       return userCredential; 
     } catch (error) {
-      
-      // ignore: avoid_print
       print('Erro ao fazer login: $error');
       rethrow;
     }
@@ -45,16 +41,24 @@ class AuthenticateService {
       
       await firebaseAuth.createUserWithEmailAndPassword(
         email: email,
-        password: "senha", 
+        password: "senha",
       );
 
       
       await firebaseAuth.currentUser?.delete();
 
+      
       return false;
     } catch (error) {
-      
-      return true;
+     
+      if (error is FirebaseAuthException) {
+        if (error.code == 'weak-password') {
+     
+        } else if (error.code == 'email-already-in-use') {
+          return true;
+        }
+      }
+      return false;
     }
   }
 }

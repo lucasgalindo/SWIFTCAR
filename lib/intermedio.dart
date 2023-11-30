@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
-import 'ConfirmarSolic.dart';
+import 'AguardarMecanico.dart';
+
 
 class Intermedio extends StatefulWidget {
   const Intermedio({Key? key}) : super(key: key);
@@ -17,9 +18,13 @@ class _IntermedioState extends State<Intermedio> {
 
     Future.delayed(Duration(seconds: 3), () {
       Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => ConfirmarSolic()),
-      );
+  context,
+  MaterialPageRoute(
+    builder: (context) => AguardarMecanico(
+      
+    ),
+  ),
+);
     });
   }
 
