@@ -18,21 +18,21 @@ class LocalizacaoUser extends ChangeNotifier {
       lat = posicao.latitude;
       long = posicao.longitude;
 
-      // Obtendo o endereço a partir da latitude e longitude
+
       List<Placemark> placemarks = await placemarkFromCoordinates(lat, long);
 
       if (placemarks.isNotEmpty) {
-        if (placemarks[0].subThoroughfare != null) {
-          endereco += placemarks[0].subThoroughfare! + ', ';
-        }
+
         if (placemarks[0].thoroughfare != null) {
           endereco += placemarks[0].thoroughfare! + ', ';
         }
+
+        if (placemarks[0].subThoroughfare != null) {
+          endereco += placemarks[0].subThoroughfare! + ', ';
+        }
+        
         if (placemarks[0].subLocality != null) {
           endereco += placemarks[0].subLocality! + ', ';
-        }
-        if (placemarks[0].locality != null) {
-          endereco += placemarks[0].locality! + ', ';
         }
         if (placemarks[0].administrativeArea != null) {
           endereco += placemarks[0].administrativeArea! + ', ';
@@ -41,7 +41,7 @@ class LocalizacaoUser extends ChangeNotifier {
           endereco += placemarks[0].country!;
         }
 
-        print('Endereço: $endereco'); // Adicione esta linha para depuração
+        print('Endereço: $endereco'); 
       } else {
         endereco = 'Endereço não disponível';
         print('Endereço não disponível');
@@ -49,7 +49,7 @@ class LocalizacaoUser extends ChangeNotifier {
 
     } catch (e) {
       erro = e.toString();
-      print('Erro ao obter localização: $erro'); // Adicione esta linha para depuração
+      print('Erro ao obter localização: $erro'); 
     }
     notifyListeners();
   }

@@ -22,19 +22,19 @@ class _CadastroPageState extends State<CadastroPage> {
       if (_formKey.currentState?.validate() ?? false) {
         print('Validação do formulário passou.');
 
-        // Verificando se o e-mail já está cadastrado
+   
         bool emailCadastrado =
             await authService.verificarEmailCadastrado(emailController.text);
 
         print('E-mail cadastrado: $emailCadastrado');
 
-        // Se o e-mail já estiver cadastrado, exibir mensagem e retornar
+        
         if (emailCadastrado) {
           mostrarSnackBar('Este e-mail já está cadastrado. Tente fazer login.');
           return;
         }
 
-        // Se o e-mail não estiver cadastrado, prosseguir com o cadastro
+        
         await authService.cadastrarUsuario(
           nome: nomeController.text,
           email: emailController.text,
