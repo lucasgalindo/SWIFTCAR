@@ -1,7 +1,11 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
-import 'package:swiftcar/models/solicitacao.dart';
+import 'package:swiftcar/models/armazenar.dart';
+import 'package:swiftcar/models/solicit.dart';
 import 'intermedio.dart';
 import 'login.dart';
+import 'models/solicitacao.dart'; 
 
 class SolicitarMecanico extends StatefulWidget {
   const SolicitarMecanico({Key? key}) : super(key: key);
@@ -15,6 +19,8 @@ class _SolicitarMecanicoState extends State<SolicitarMecanico> {
   String placa = '';
   String model = '';
   LocalizacaoUser localizacaoUser = LocalizacaoUser();
+  SolicitMec solicitMec = SolicitMec(id: '', localizacao: '', placa: '', modelo: '');
+  SolicitacaoMec solicitacaoMec = SolicitacaoMec();
 
   @override
   void initState() {
@@ -25,75 +31,79 @@ class _SolicitarMecanicoState extends State<SolicitarMecanico> {
   void obterLocalizacao() async {
     await localizacaoUser.getPosicao();
     setState(() {
-      localization = localizacaoUser.endereco; // Agora utiliza o endereço
+      localization = localizacaoUser.endereco;
     });
   }
 
-  
+  void _mostrarPopUpConfirmacao() async {
+    if (localization.isNotEmpty && _isValidPlaca(placa) && model.isNotEmpty) {
+      solicitMec = SolicitMec(
+        id: '', 
+        localizacao: localization,
+        placa: placa,
+        modelo: model,
+      );
 
-  void _mostrarPopUpConfirmacao() {
-  // Verifica se todos os campos estão preenchidos e a placa está no formato correto
-  if (localization.isNotEmpty && _isValidPlaca(placa) && model.isNotEmpty) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Confirmação'),
-          content: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text('Localização: $localization'),
-              SizedBox(height: 10),
-              Text('Placa do Veículo: $placa'),
-              SizedBox(height: 10),
-              Text('Modelo/Ano: $model'),
-              SizedBox(height: 10),
-              Text(
-                'Observação: Ao confirmar a chamada de um mecânico, solicitado por meio do SwiftCar, garante a resolução de problemas que sejam passíveis de correção nas condições oferecidas por esse tipo de atendimento. Essa modalidade de serviço não contempla situações que exigem equipamentos especializados ou maquinários disponíveis apenas em oficinas.',
-                style: TextStyle(
-                  fontStyle: FontStyle.italic,
-                  color: Colors.grey,
+      await solicitacaoMec.saveSolicitMecToFirestore(solicitMec);
+
+      
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Confirmação'),
+            content: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text('Localização: $localization'),
+                const SizedBox(height: 10),
+                Text('Placa do Veículo: $placa'),
+                const SizedBox(height: 10),
+                Text('Modelo/Ano: $model'),
+                const SizedBox(height: 10),
+                const Text(
+                  'Observação: Ao confirmar a chamada de um mecânico, solicitado por meio do SwiftCar, garante a resolução de problemas que sejam passíveis de correção nas condições oferecidas por esse tipo de atendimento. Essa modalidade de serviço não contempla situações que exigem equipamentos especializados ou maquinários disponíveis apenas em oficinas.',
+                  style: TextStyle(
+                    fontStyle: FontStyle.italic,
+                    color: Colors.grey,
+                  ),
                 ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('Cancelar'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const Intermedio()),
+                  );
+                },
+                child: const Text('Confirmar'),
               ),
             ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('Cancelar'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Intermedio()),
-                );
-              },
-              child: Text('Confirmar'),
-            ),
-          ],
-        );
-      },
-    );
-  } else {
-    // Mostra um snackbar informando que todos os campos são obrigatórios ou a placa está em formato inválido
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Todos os campos são obrigatórios ou a placa está em formato inválido.'),
-      ),
-    );
+          );
+        },
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Todos os campos são obrigatórios ou a placa está em formato inválido.'),
+        ),
+      );
+    }
   }
-}
 
-bool _isValidPlaca(String placa) {
-  // Expressão regular para validar o formato da placa (AAA1A11)
-  RegExp placaRegex = RegExp(r'^[A-Z]{3}\d[A-Z]\d{2}$');
-  return placaRegex.hasMatch(placa);
-}
-
+  bool _isValidPlaca(String placa) {
+    RegExp placaRegex = RegExp(r'^[A-Z]{3}\d[A-Z]\d{2}$');
+    return placaRegex.hasMatch(placa);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -117,7 +127,7 @@ bool _isValidPlaca(String placa) {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => SolicitarMecanico()),
+                  MaterialPageRoute(builder: (context) => const SolicitarMecanico()),
                 );
               },
             ),
@@ -128,7 +138,7 @@ bool _isValidPlaca(String placa) {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => LoginPage()),
+                  MaterialPageRoute(builder: (context) => const LoginPage()),
                 );
               },
             ),
@@ -145,7 +155,7 @@ bool _isValidPlaca(String placa) {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset('assets/swiftcar.png'),
-                SizedBox(height: 76),
+                const SizedBox(height: 76),
                 TextField(
                   onChanged: (text) {
                     setState(() {
@@ -153,12 +163,12 @@ bool _isValidPlaca(String placa) {
                     });
                   },
                   controller: TextEditingController(text: localization),
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Digite a sua localização:',
                     border: OutlineInputBorder(),
                   ),
                 ),
-                SizedBox(height: 50),
+                const SizedBox(height: 50),
                 TextField(
                   onChanged: (text) {
                     setState(() {
@@ -166,30 +176,30 @@ bool _isValidPlaca(String placa) {
                     });
                   },
                   keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Digite a placa do seu veículo:',
                     border: OutlineInputBorder(),
                   ),
                 ),
-                SizedBox(height: 50),
+                const SizedBox(height: 50),
                 TextField(
                   onChanged: (text) {
                     setState(() {
                       model = text;
                     });
                   },
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Digite o modelo e ano do seu veículo (MODELO/ANO): ',
                     border: OutlineInputBorder(),
                   ),
                 ),
-                SizedBox(height: 76),
+                const SizedBox(height: 76),
                 ElevatedButton(
                   onPressed: _mostrarPopUpConfirmacao,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color.fromRGBO(21, 136, 205, 1),
+                    backgroundColor: const Color.fromRGBO(21, 136, 205, 1),
                   ),
-                  child: SizedBox(
+                  child: const SizedBox(
                     width: 300,
                     height: 50,
                     child: Center(

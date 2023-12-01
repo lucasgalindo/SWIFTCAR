@@ -1,30 +1,30 @@
-class Solicitacao {
+class SolicitMec {
   String id;
   String localizacao;
-  String placa; 
+  String placa;
   String modelo;
 
-  Solicitacao({
+  SolicitMec({
     required this.id,
     required this.localizacao,
     required this.placa,
     required this.modelo,
   });
 
-  Solicitacao.fromMap(Map<String, dynamic> map)
-      : id = map["id"], 
+  SolicitMec.fromMap(Map<String, dynamic> map)
+      : id = map["id"],
         localizacao = map["localizacao"],
-        placa = map["descricao"],
-        modelo = map["dataHora"];
+        placa = map["placa"],
+        modelo = map["modelo"];
+
+  set userId(String userId) {}
 
   Map<String, dynamic> toMap() {
     return {
       "id": id,
       "localizacao": localizacao,
-      "descricao": placa,
-      "dataHora": modelo,
+      "placa": placa,
+      "modelo": modelo,
     };
   }
-
-  
 }
