@@ -29,7 +29,11 @@ class _SolicitarMecanicoState extends State<SolicitarMecanico> {
     });
   }
 
+  
+
   void _mostrarPopUpConfirmacao() {
+  // Verifica se todos os campos estão preenchidos e a placa está no formato correto
+  if (localization.isNotEmpty && _isValidPlaca(placa) && model.isNotEmpty) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -74,7 +78,22 @@ class _SolicitarMecanicoState extends State<SolicitarMecanico> {
         );
       },
     );
+  } else {
+    // Mostra um snackbar informando que todos os campos são obrigatórios ou a placa está em formato inválido
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Todos os campos são obrigatórios ou a placa está em formato inválido.'),
+      ),
+    );
   }
+}
+
+bool _isValidPlaca(String placa) {
+  // Expressão regular para validar o formato da placa (AAA1A11)
+  RegExp placaRegex = RegExp(r'^[A-Z]{3}\d[A-Z]\d{2}$');
+  return placaRegex.hasMatch(placa);
+}
+
 
   @override
   Widget build(BuildContext context) {
